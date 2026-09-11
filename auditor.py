@@ -11,5 +11,9 @@ while True:
         print("Error: Please enter a valid number.")
         continue
 
+    if stock.startswith("-") and stock[1:].isdigit():
+        print("Error: Stock quantity cannot be negative.")
+        continue
+
     stock = int(stock)
     print(stock)
