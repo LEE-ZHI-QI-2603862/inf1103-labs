@@ -7,16 +7,20 @@ while True:
     if stock == "quit":
         break
 
-    if not stock.isdigit():
-        print("Error: Please enter a valid number.")
-        continue
-
-    if stock.startswith("-") and stock[1:].isdigit():
+    elif stock.startswith("-") and stock[1:].isdigit():
         print("Error: Stock quantity cannot be negative.")
         continue
 
-    stock = int(stock)
+    elif not stock.isdigit():
+        print("Error: Please enter a valid number.")
+        continue
 
-    inventory += stock
+    else:
+        stock = int(stock)
+        inventory += stock
 
-    print("Current inventory: ", inventory)
+        print("Current inventory: ", inventory)
+
+        if inventory > 500:
+            print("Alert: Inventory exceeds 500 units!")
+            break
