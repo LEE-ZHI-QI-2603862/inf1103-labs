@@ -6,3 +6,6 @@ while True:
 
     if stock == "quit":
         break
+
+    stock = int(stock)
+    print(stock)
