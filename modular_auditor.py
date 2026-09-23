@@ -26,28 +26,29 @@ def generate_report(total_units, failed_attempts):
      print("Total Units Processed:", total_units)
      print("Number of Failed/Rejected Entries", failed_attempts)
 
+inventory = 0
+rejected_entries = 0
+deliveries_processed = 0
+
 while True:
-    stock = input("Enter stock quantity (or type quit): ")
+    stock = get_valid_input()
 
     if stock == "quit":
-        print("Total Units Processed:", inventory)
-        print("Number of Failed/Rejected Entries:", rejected_entries)
+        generate_report(inventory,rejected_entries)
+        print("Total Deliveries Processed:", deliveries_processed)
         break
 
-    elif stock.startswith("-") and stock[1:].isdigit():
-        print("Error: Stock quantity cannot be negative.")
-        rejected_entries += 1
-        continue
-
-    elif not stock.isdigit():
-        print("Error: Please enter a valid number.")
+    elif stock is None:
         rejected_entries += 1
         continue
 
     else:
-        stock = int(stock)
-        inventory += stock
+        inventory = process_delivery(inventory, stock)
+        deliveries_processed += 1
 
+        tax = calculate_tax(stock)
+
+        print("Tax for this delivery:", tax)
         print("Current inventory: ", inventory)
 
         if inventory > 500:
