@@ -1,7 +1,7 @@
 inventory = 0
 rejected_entries = 0
 
-def get_valid_input():
+while True:
     stock = input("Enter stock quantity (or type quit): ")
 
     if stock == "quit":
