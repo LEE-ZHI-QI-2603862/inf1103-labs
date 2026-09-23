@@ -1,5 +1,19 @@
-inventory = 0
-rejected_entries = 0
+def get_valid_input():
+    stock = input("Enter stock quantity (or type quit): ")
+
+    if stock == "quit":
+        return "quit"
+
+    elif stock.startswith("-") and stock[1:].isdigit():
+            print("Error: Stock quantity cannot be negative.")
+            return None
+
+    elif not stock.isdigit():
+            print("Error: Please enter a valid number.")
+            return None
+    else:
+         return int(stock)
+    
 
 while True:
     stock = input("Enter stock quantity (or type quit): ")
