@@ -1,3 +1,25 @@
+def load_inventory():
+    try:
+        with open("inventory.txt", "r") as f:
+            lines = f.readlines()
+
+            if len(lines) >= 1 and lines[0].strip() != "":
+                saved_total = int(lines[0].strip())
+            else:
+                saved_total = 0
+
+            if len(lines) >= 2 and lines[1].strip() != "":
+                saved_history = [int(x) for x in lines[1].strip().split(",")]
+            else:
+                saved_history = []
+
+            print("Previous inventory loaded successfully.")
+            return saved_total, saved_history
+
+    except FileNotFoundError:
+        print("No previous inventory file found. Starting fresh.")
+        return 0, []
+
 def get_valid_input():
     stock = input("Enter stock quantity (or type quit): ")
 
@@ -26,9 +48,14 @@ def generate_report(total_units, failed_attempts):
      print("Total Units Processed:", total_units)
      print("Number of Failed/Rejected Entries", failed_attempts)
 
-inventory = 0
+
+
+inventory, history = load_inventory()
 rejected_entries = 0
 deliveries_processed = 0
+
+print("Current Inventory Total:", inventory)
+print("Previous Transaction History:", history)
 
 while True:
     stock = get_valid_input()
