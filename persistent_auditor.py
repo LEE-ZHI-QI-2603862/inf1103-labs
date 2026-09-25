@@ -20,6 +20,13 @@ def load_inventory():
         print("No previous inventory file found. Starting fresh.")
         return 0, []
 
+def save_inventory(total, history):
+    with open("inventory.txt", "w") as f:
+        f.write(str(total) + "\n")
+        f.write(",".join(str(x) for x in history) + "\n")
+
+    print("Inventory successfully saved to inventory.txt")
+
 def get_valid_input():
     stock = input("Enter stock quantity (or type quit): ")
 
@@ -49,7 +56,6 @@ def generate_report(total_units, failed_attempts):
      print("Number of Failed/Rejected Entries", failed_attempts)
 
 
-
 inventory, history = load_inventory()
 rejected_entries = 0
 deliveries_processed = 0
@@ -63,6 +69,7 @@ while True:
     if stock == "quit":
         generate_report(inventory,rejected_entries)
         print("Total Deliveries Processed:", deliveries_processed)
+        save_inventory(inventory, history)
         break
 
     elif stock is None:
