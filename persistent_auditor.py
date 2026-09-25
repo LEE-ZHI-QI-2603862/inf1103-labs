@@ -72,11 +72,13 @@ while True:
     else:
         inventory = process_delivery(inventory, stock)
         deliveries_processed += 1
+        history.append(stock)
 
         tax = calculate_tax(stock)
 
         print("Tax for this delivery:", tax)
         print("Current inventory: ", inventory)
+        print("Transaction history so far:", history)
 
         if inventory > 500:
             print("Alert: Inventory exceeds 500 units!")
