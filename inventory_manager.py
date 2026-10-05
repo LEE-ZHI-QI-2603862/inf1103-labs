@@ -1,24 +1,19 @@
+import json
+import os
+
 def load_inventory():
-    try:
-        with open("inventory.txt", "r") as f:
-            lines = f.readlines()
+    if os.path.exists("inventory.json"):
+         print("inventory.json found.")
+    
+         with open("inventory.json", "r") as f:
+            inventory = json.load(f)
 
-            if len(lines) >= 1 and lines[0].strip() != "":
-                saved_total = int(lines[0].strip())
-            else:
-                saved_total = 0
+         print("Inventory loaded successfully.")
+         return inventory
 
-            if len(lines) >= 2 and lines[1].strip() != "":
-                saved_history = [int(x) for x in lines[1].strip().split(",")]
-            else:
-                saved_history = []
-
-            print("Previous inventory loaded successfully.")
-            return saved_total, saved_history
-
-    except FileNotFoundError:
-        print("No previous inventory file found. Starting fresh.")
-        return 0, []
+    else:
+         print("inventory.json not found. Starting with empty inventory.")
+         return []
 
 def save_inventory(total, history):
     with open("inventory.txt", "w") as f:
@@ -55,23 +50,75 @@ def generate_report(total_units, failed_attempts):
      print("Total Units Processed:", total_units)
      print("Number of Failed/Rejected Entries", failed_attempts)
 
-inventory = [
-    {
-        "id": "P001",
-        "name": "Laptop",
-        "price": 1200.00,
-        "stock": 15
-    },
-    {
-        "id": "P002",
-        "name": "Mouse",
-        "price": 25.50,
-        "stock": 40
-    },
-    {
-        "id": "P003",
-        "name": "Keyboard",
-        "price": 45.00,
-        "stock": 25
-    }
-]
+def display_all():
+     print("Current Inventory")
+     print("--------------------------------------------")
+
+     for product in inventory:
+          print(
+               f"ID: {product['id']} | "
+               f"Name: {product['name']} | "
+               f"Price: {product['price']:.2f} | "
+               f"Stock: {product['stock']}"
+          )
+     print("--------------------------------------------")
+
+def add_product():
+     print("Add New Product")
+
+     product_id = input("Product ID: ")
+     name = input("Product Name: ")
+     price = float(input("Price: "))
+     stock = int(input("Stock Quantity: "))
+
+     product = {
+          "id": product_id,
+          "name": name,
+          "price": price,
+          "stock": stock 
+     }
+
+     inventory.append(product)
+
+     print("Product added successfully!")
+
+def search_product():
+     print("Search Product")
+
+     product_id = input("Enter Product ID: ")
+
+     for product in inventory:
+          if product["id"] == product_id:
+               print("Product Found")
+               print("--------------------------------------------")
+               print("ID:", product["id"])
+               print("Name:", product["name"])
+               print(f"Price: ${product['price']:.2f}")
+               print("Stock:", product["stock"])
+               print("--------------------------------------------")
+               return
+     print("Product not found.")
+
+def update_stock():
+     print("Update Stock")
+
+     product_id = input("Enter Product ID: ")
+
+     for product in inventory:
+          if product["id"] == product_id:
+               print("Product Found:")
+               print("Name:", product["name"])
+               print("Current Stock:", product["stock"])
+
+               new_stock = int(input("New Stock Quantity: "))
+
+               product["stock"] = new_stock
+
+               print("Stock updated successfully!")
+               return
+     
+     print("Product not found.")
+
+inventory = load_inventory()
+
+load_inventory()
