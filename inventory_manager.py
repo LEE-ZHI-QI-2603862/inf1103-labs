@@ -15,40 +15,11 @@ def load_inventory():
          print("inventory.json not found. Starting with empty inventory.")
          return []
 
-def save_inventory(total, history):
-    with open("inventory.txt", "w") as f:
-        f.write(str(total) + "\n")
-        f.write(",".join(str(x) for x in history) + "\n")
+def save_inventory():
+     with open("inventory.json", "w") as f:
+          json.dump(inventory, f, indent=4)
 
-    print("Inventory successfully saved to inventory.txt")
-
-def get_valid_input():
-    stock = input("Enter stock quantity (or type quit): ")
-
-    if stock == "quit":
-        return "quit"
-
-    elif stock.startswith("-") and stock[1:].isdigit():
-            print("Error: Stock quantity cannot be negative.")
-            return None
-
-    elif not stock.isdigit():
-            print("Error: Please enter a valid number.")
-            return None
-    else:
-         return int(stock)
-
-def process_delivery(current_total, new_value):
-     new_total = current_total + new_value
-     return new_total
-
-def calculate_tax(amount):
-     tax = amount * 0.10
-     return tax
-
-def generate_report(total_units, failed_attempts):
-     print("Total Units Processed:", total_units)
-     print("Number of Failed/Rejected Entries", failed_attempts)
+     print("Inventory saved successfully to inventory.json.")
 
 def display_all():
      print("Current Inventory")
@@ -119,6 +90,7 @@ def update_stock():
      
      print("Product not found.")
 
+
+
 inventory = load_inventory()
 
-load_inventory()
