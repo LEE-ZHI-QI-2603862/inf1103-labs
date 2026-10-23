@@ -129,24 +129,67 @@ while True:
      option = input("Enter option: ")
 
      if option == "1":
-          display_all()
+          inventory.display_all()
      
      elif option == "2":
-          add_product()
+          print("Add New Product")
+          
+          product_id = input("Product ID: ")
+          name = input("Product Name: ")
+          price = float(input("Price: "))
+          stock = int(input("Stock Quantity: "))
+          
+          product = Product(product_id, name, price, stock)
+          
+          inventory.add_product(product)
+          
+          print("Product added successfully!")
      
      elif option == "3":
-          update_stock()
-
+          print("Update Stock")
+          
+          product_id = input("Enter Product ID: ")
+          
+          product = inventory.search_product(product_id)
+          
+          if product is not None:
+               print("Product Found:")
+               print("Name:", product.get_name())
+               print("Current Stock:", product.get_stock())
+               
+               new_stock = int(input("New Stock Quantity: "))
+               
+               product.update_stock(new_stock)
+               
+               print("Stock updated successfully!")
+          
+          else:
+               print("Product not found.")
+     
      elif option == "4":
-          search_product()
+          print("Search Product")
+          
+          product_id = input("Enter Product ID: ")
+          
+          product = inventory.search_product(product_id)
+          
+          if product is not None:
+               print("Product Found")
+               print("--------------------------------------------")
+               product.display_information()
+               print("--------------------------------------------")
+          
+          else:
+               print("Product not found.")
      
      elif option == "5":
           print("Saving inventory...")
-          save_inventory()
+          save_inventory(inventory)
 
      elif option == "6":
           print("Saving inventory before exit...")
-          save_inventory()
+          save_inventory(inventory)
+          
           print("Thank you for using Inventory Management System.")
           print("Program terminated.")
           break
