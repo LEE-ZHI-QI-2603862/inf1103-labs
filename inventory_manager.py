@@ -1,22 +1,45 @@
 import json
 import os
 
-def load_inventory():
-     if os.path.exists("inventory.json"):
-          print("inventory.json found.")
-          with open("inventory.json", "r") as file:
-               data = json.load(file)
-          print("Inventory loaded successfully.")
-          return data
-     else:
-          print("No inventory.json found. Starting with empty inventory.")
-          return []
-    
-def save_inventory():
-     with open("inventory.json", "w") as f:
-          json.dump(inventory, f, indent=4)
+from product import Product
+from inventory import Inventory
 
-     print("Inventory saved successfully to inventory.json.")
+def load_inventory():
+    inventory = Inventory()
+
+    if os.path.exists("inventory.json"):
+        print("inventory.json found.")
+
+        with open("inventory.json", "r") as f:
+            data = json.load(f)
+
+        for item in data:
+            product = Product(
+                item["id"],
+                item["name"],
+                item["price"],
+                item["stock"]
+            )
+
+            inventory.add_product(product)
+
+        print("Inventory loaded successfully.")
+
+    else:
+        print("inventory.json not found. Starting with empty inventory.")
+
+    return inventory
+
+def save_inventory(inventory):
+    data = []
+
+    for product in inventory.get_products():
+        data.append(product.to_dict())
+
+    with open("inventory.json", "w") as f:
+        json.dump(data, f, indent=4)
+
+    print("Inventory saved successfully to inventory.json.")
 
 def display_all():
      print("Current Inventory")
