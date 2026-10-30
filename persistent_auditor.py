@@ -57,8 +57,6 @@ def generate_report(total_units, failed_attempts):
 
 
 inventory, history = load_inventory()
-rejected_entries = 0
-deliveries_processed = 0
 
 print("Current Inventory Total:", inventory)
 print("Previous Transaction History:", history)
